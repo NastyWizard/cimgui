@@ -14,10 +14,14 @@ endif()
 #general settings
 file(GLOB IMGUI_SOURCES
     cimgui.cpp
+    cimgui_backend_sdlgpu_wrap.cxx
+    cimgui_backend_sdlgpu.cpp
     imgui/imgui.cpp
     imgui/imgui_draw.cpp
     imgui/imgui_demo.cpp
     imgui/imgui_widgets.cpp
+    imgui/backends/imgui_impl_sdl3.cpp
+    imgui/backends/imgui_impl_sdlgpu3.cpp
 	${TABLES_SOURCE}
 )
 
@@ -63,8 +67,15 @@ endif (WIN32)
 
 target_include_directories(cimgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(cimgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/imgui)
+target_include_directories(cimgui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends)
 set_target_properties(cimgui PROPERTIES PREFIX "")
 target_link_libraries(cimgui ${IMGUI_LIBRARIES})
+
+find_path(SDL3_INCLUDE_DIR SDL3/SDL_gpu.h HINTS /opt/homebrew/include)
+find_library(SDL3_LIBRARY SDL3 HINTS /opt/homebrew/lib)
+
+target_include_directories(cimgui PUBLIC ${SDL3_INCLUDE_DIR})
+target_link_libraries(cimgui PUBLIC ${SDL3_LIBRARY})
 
 #install
 install(TARGETS cimgui

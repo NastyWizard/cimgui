@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "cimgui.h": "c",
+        "cimgui_backend_sdlgpu.h": "c",
+        "imgui_impl_sdlgpu3.h": "c"
+    }
+}
